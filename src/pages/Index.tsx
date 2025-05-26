@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { SupplierCard } from '@/components/SupplierCard';
 import { CategoryFilter } from '@/components/CategoryFilter';
+import { Navigation } from '@/components/Navigation';
 import { suppliersData } from '@/data/suppliers';
 import type { Supplier } from '@/types/supplier';
 
@@ -41,44 +42,73 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-orange-50 via-white to-orange-50 border-b border-orange-100">
-        <div className="container mx-auto px-4 py-16 lg:py-24">
+      <div className="bg-white py-16">
+        <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Supplier Directory
+            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+              Our Trusted Suppliers
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-              Connect with verified suppliers and partners across industries. Find your perfect business partners.
+            <p className="text-lg text-gray-600 mb-12">
+              Quality partners that help us deliver excellence across the globe
             </p>
+            
+            {/* Search Bar */}
+            <div className="relative max-w-2xl mx-auto mb-12">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <Input
+                type="text"
+                placeholder="Search suppliers by name, category, or location..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-12 h-14 text-lg border-2 border-gray-200 focus:border-orange-500 transition-colors rounded-lg"
+              />
+            </div>
+
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap justify-center gap-3 mb-8">
+              <Badge
+                variant={selectedCategories.length === 0 ? "default" : "outline"}
+                className={`cursor-pointer px-4 py-2 text-sm transition-all duration-200 ${
+                  selectedCategories.length === 0
+                    ? 'bg-orange-600 hover:bg-orange-700 text-white'
+                    : 'border-gray-300 text-gray-700 hover:border-orange-300 hover:text-orange-600 hover:bg-orange-50'
+                }`}
+                onClick={() => setSelectedCategories([])}
+              >
+                All Suppliers
+              </Badge>
+              {allCategories.slice(0, 9).map((category) => {
+                const isSelected = selectedCategories.includes(category);
+                return (
+                  <Badge
+                    key={category}
+                    variant={isSelected ? "default" : "outline"}
+                    className={`cursor-pointer px-4 py-2 text-sm transition-all duration-200 ${
+                      isSelected
+                        ? 'bg-orange-600 hover:bg-orange-700 text-white'
+                        : 'border-gray-300 text-gray-700 hover:border-orange-300 hover:text-orange-600 hover:bg-orange-50'
+                    }`}
+                    onClick={() => {
+                      if (isSelected) {
+                        setSelectedCategories(selectedCategories.filter(c => c !== category));
+                      } else {
+                        setSelectedCategories([...selectedCategories, category]);
+                      }
+                    }}
+                  >
+                    {category}
+                  </Badge>
+                );
+              })}
+            </div>
           </div>
         </div>
-        {/* Background decoration */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-orange-200/20 to-transparent rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-orange-200/20 to-transparent rounded-full blur-3xl"></div>
       </div>
       
       <div className="container mx-auto px-4 py-8">
-        {/* Search and Filter Section */}
-        <div className="mb-8 space-y-6">
-          <div className="relative max-w-2xl mx-auto">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-            <Input
-              type="text"
-              placeholder="Search suppliers by name, category, or location..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 h-12 text-lg border-2 border-gray-200 focus:border-orange-500 transition-colors"
-            />
-          </div>
-
-          <CategoryFilter
-            categories={allCategories}
-            selectedCategories={selectedCategories}
-            onCategoryChange={setSelectedCategories}
-          />
-        </div>
-
         {/* Results Header */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">
