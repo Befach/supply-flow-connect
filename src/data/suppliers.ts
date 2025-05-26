@@ -17,7 +17,7 @@ export const suppliersData: Supplier[] = [
     partnershipYears: 3,
     founded: 2015,
     employeeCount: "50-100",
-    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJxEgXEtCrFqLvFm3S3NJZeX-4sJAaEI47PQ&s",
+    logoUrl: "https://images.crunchbase.com/image/upload/c_pad,h_256,w_256,f_auto,q_auto:eco,dpr_1/itqmfe12gyc19x3pb0x2",
     images: [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJxEgXEtCrFqLvFm3S3NJZeX-4sJAaEI47PQ&s",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJxEgXEtCrFqLvFm3S3NJZeX-4sJAaEI47PQ&s"
