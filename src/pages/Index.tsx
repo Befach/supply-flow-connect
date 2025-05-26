@@ -7,7 +7,6 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { SupplierCard } from '@/components/SupplierCard';
-import { Hero } from '@/components/Hero';
 import { CategoryFilter } from '@/components/CategoryFilter';
 import { suppliersData } from '@/data/suppliers';
 import type { Supplier } from '@/types/supplier';
@@ -42,7 +41,22 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Hero />
+      {/* Hero Section */}
+      <div className="relative bg-gradient-to-br from-orange-50 via-white to-orange-50 border-b border-orange-100">
+        <div className="container mx-auto px-4 py-16 lg:py-24">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              Supplier Directory
+            </h1>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+              Connect with verified suppliers and partners across industries. Find your perfect business partners.
+            </p>
+          </div>
+        </div>
+        {/* Background decoration */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-orange-200/20 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-orange-200/20 to-transparent rounded-full blur-3xl"></div>
+      </div>
       
       <div className="container mx-auto px-4 py-8">
         {/* Search and Filter Section */}
