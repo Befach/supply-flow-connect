@@ -17,7 +17,7 @@ export const suppliersData: Supplier[] = [
     partnershipYears: 3,
     founded: 2015,
     employeeCount: "50-100",
-    logoUrl: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=200&h=200&fit=crop",
+    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlvcuL1dXkW1RFt267hvrZLatHB7DrPoK5ZA&s",
     images: [
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=400&fit=crop",
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop"
@@ -43,7 +43,7 @@ export const suppliersData: Supplier[] = [
     partnershipYears: 5,
     founded: 2012,
     employeeCount: "25-50",
-    logoUrl: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=200&h=200&fit=crop",
+    logoUrl: "https://media.licdn.com/dms/image/v2/C4E0BAQEza-gluN7GYA/company-logo_200_200/company-logo_200_200/0/1663985142894?e=2147483647&v=beta&t=wGNd15IcB0JBhKuKrFxAMsCYui-Iu-9huG5vz1TdX08",
     images: [
       "https://images.unsplash.com/photo-1581091160399-112ba8d25d1f?w=800&h=400&fit=crop",
       "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=400&fit=crop"
@@ -69,7 +69,7 @@ export const suppliersData: Supplier[] = [
     partnershipYears: 4,
     founded: 2016,
     employeeCount: "50-100",
-    logoUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=200&fit=crop",
+    logoUrl: "https://tiimg.tistatic.com/fp/1/003/038/jackleg-pneumatic-and-air-leg-rock-drill-yt23-381.jpg",
     images: [
       "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=800&h=400&fit=crop",
       "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&h=400&fit=crop"
@@ -95,7 +95,7 @@ export const suppliersData: Supplier[] = [
     partnershipYears: 6,
     founded: 2010,
     employeeCount: "100-250",
-    logoUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop",
+    logoUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJxEgXEtCrFqLvFm3S3NJZeX-4sJAaEI47PQ&s",
     images: [
       "https://images.unsplash.com/photo-1483058712412-4245e9b90334?w=800&h=400&fit=crop",
       "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=400&fit=crop"
@@ -121,7 +121,7 @@ export const suppliersData: Supplier[] = [
     partnershipYears: 7,
     founded: 2008,
     employeeCount: "250-500",
-    logoUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop",
+    logoUrl: "https://www.dnb.com/business-directory/company-profiles.beijing_erichman_technology_co_ltd.c79ee4f1deeddfaef4eb10f7c6dcdaff.html",
     images: [
       "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=400&fit=crop",
       "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=400&fit=crop"
@@ -147,7 +147,7 @@ export const suppliersData: Supplier[] = [
     partnershipYears: 2,
     founded: 2018,
     employeeCount: "100-250",
-    logoUrl: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=200&h=200&fit=crop",
+    logoUrl: "https://electricvehiclecouncil.com.au/wp-content/uploads/2025/04/StarCharge-LOGO-H-Color-Black-scaled-e1745283608563.png",
     images: [
       "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=400&fit=crop",
       "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&h=400&fit=crop"
