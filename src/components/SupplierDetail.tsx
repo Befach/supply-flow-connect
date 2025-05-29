@@ -18,6 +18,10 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { ProductCard } from '@/components/ProductCard';
+import { SupplierCard } from '@/components/SupplierCard';
+import { productsData } from '@/data/products';
+import { suppliersData } from '@/data/suppliers';
 import type { Supplier } from '@/types/supplier';
 
 interface SupplierDetailProps {
@@ -39,6 +43,18 @@ export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack
         break;
     }
   };
+
+  // Get products from this supplier
+  const supplierProducts = productsData.filter(product => product.supplierId === supplier.id);
+
+  // Get related suppliers (same categories, excluding current supplier)
+  const relatedSuppliers = suppliersData
+    .filter(s => 
+      s.id !== supplier.id && 
+      s.isActive && 
+      s.categories.some(cat => supplier.categories.includes(cat))
+    )
+    .slice(0, 3);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -84,71 +100,9 @@ export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack
                 <p className="text-gray-600 text-lg leading-relaxed max-w-3xl">
                   {supplier.description}
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Company Images */}
-            {supplier.images.length > 0 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Building className="h-5 w-5 text-orange-600" />
-                    Company Gallery
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {supplier.images.map((image, index) => (
-                      <div key={index} className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
-                        <img 
-                          src={image} 
-                          alt={`${supplier.name} facility ${index + 1}`}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Products & Services */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Package className="h-5 w-5 text-orange-600" />
-                  Products & Services
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {supplier.products.map((product, index) => (
-                    <div 
-                      key={index}
-                      className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-orange-50 transition-colors"
-                    >
-                      <div className="w-2 h-2 bg-orange-600 rounded-full"></div>
-                      <span className="text-gray-900">{product}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Categories */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Industry Categories</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
+                {/* Categories */}
+                <div className="flex flex-wrap gap-2 mt-4">
                   {supplier.categories.map((category) => (
                     <Badge 
                       key={category}
@@ -159,8 +113,70 @@ export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack
                     </Badge>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-3 space-y-8">
+            {/* Products Section */}
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                  <Package className="h-6 w-6 text-orange-600" />
+                  Products ({supplierProducts.length})
+                </h2>
+                {supplierProducts.length > 6 && (
+                  <Button variant="outline" className="text-orange-600 border-orange-600 hover:bg-orange-50">
+                    View more
+                  </Button>
+                )}
+              </div>
+              
+              {supplierProducts.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {supplierProducts.slice(0, 6).map((product) => (
+                    <ProductCard 
+                      key={product.id} 
+                      product={product}
+                      onClick={() => {
+                        // Handle product click if needed
+                        console.log('Product clicked:', product.name);
+                      }}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
+                  <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">No products yet</h3>
+                  <p className="text-gray-600">This supplier hasn't added any products to showcase.</p>
+                </div>
+              )}
+            </div>
+
+            {/* Related Suppliers */}
+            {relatedSuppliers.length > 0 && (
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Related Suppliers</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {relatedSuppliers.map((relatedSupplier) => (
+                    <SupplierCard 
+                      key={relatedSupplier.id} 
+                      supplier={relatedSupplier}
+                      onClick={() => {
+                        // Handle related supplier click if needed
+                        console.log('Related supplier clicked:', relatedSupplier.name);
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}
@@ -255,6 +271,31 @@ export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack
                 </div>
               </CardContent>
             </Card>
+
+            {/* Company Images */}
+            {supplier.images.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Building className="h-5 w-5 text-orange-600" />
+                    Company Gallery
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 gap-4">
+                    {supplier.images.slice(0, 2).map((image, index) => (
+                      <div key={index} className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
+                        <img 
+                          src={image} 
+                          alt={`${supplier.name} facility ${index + 1}`}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </div>
