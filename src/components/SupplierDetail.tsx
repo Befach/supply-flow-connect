@@ -12,7 +12,7 @@ import {
   Star,
   Package,
   Building,
-  Clock
+  Truck
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -267,18 +267,10 @@ export const SupplierDetail: React.FC<SupplierDetailProps> = ({
                 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-gray-600">
-                    <Clock className="h-4 w-4" />
-                    <span>Partnership</span>
+                    <Truck className="h-4 w-4" />
+                    <span>Import/Export</span>
                   </div>
-                  <span className="font-semibold">{supplier.partnershipYears} years</span>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <MapPin className="h-4 w-4" />
-                    <span>Location</span>
-                  </div>
-                  <span className="font-semibold">{supplier.country}</span>
+                  <span className="font-semibold">Available</span>
                 </div>
               </CardContent>
             </Card>
