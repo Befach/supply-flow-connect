@@ -12,14 +12,15 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) => {
-  const handleViewDetails = () => {
+  const handleCardClick = () => {
+    console.log('Product card clicked:', product.name);
     if (onClick) {
       onClick();
     }
   };
 
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 border-gray-200 overflow-hidden bg-white cursor-pointer" onClick={handleViewDetails}>
+    <Card className="group hover:shadow-lg transition-all duration-300 border-gray-200 overflow-hidden bg-white cursor-pointer" onClick={handleCardClick}>
       <div className="bg-gray-100 h-48 flex items-center justify-center">
         <img 
           src={product.image} 
@@ -66,10 +67,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) =>
 
         <Button 
           className="w-full bg-orange-500 hover:bg-orange-600 text-white rounded-lg py-3 flex items-center justify-center gap-2"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleViewDetails();
-          }}
+          onClick={handleCardClick}
         >
           View Details
           <ArrowRight className="h-4 w-4" />
