@@ -260,9 +260,9 @@ const Index = () => {
           </div>
 
           <div className="text-center">
-            <p className="text-lg text-gray-700">
-              <span className="text-orange-500 font-semibold">120+ Customers</span> 
-              <span className="text-gray-900 font-semibold"> benefited with our Services till now</span>
+            <p className="text-3xl lg:text-4xl font-bold text-gray-700">
+              <span className="text-orange-500">120+ Customers</span> 
+              <span className="text-gray-900"> benefited with our Services till now</span>
             </p>
           </div>
         </div>
