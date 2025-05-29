@@ -27,9 +27,16 @@ import type { Supplier } from '@/types/supplier';
 interface SupplierDetailProps {
   supplier: Supplier;
   onBack: () => void;
+  onSupplierClick?: (supplier: Supplier) => void;
+  onProductClick?: (product: any) => void;
 }
 
-export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack }) => {
+export const SupplierDetail: React.FC<SupplierDetailProps> = ({ 
+  supplier, 
+  onBack, 
+  onSupplierClick, 
+  onProductClick 
+}) => {
   const handleContact = (type: 'email' | 'phone' | 'website') => {
     switch (type) {
       case 'email':
@@ -144,8 +151,10 @@ export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack
                       key={product.id} 
                       product={product}
                       onClick={() => {
-                        // Handle product click if needed
                         console.log('Product clicked:', product.name);
+                        if (onProductClick) {
+                          onProductClick(product);
+                        }
                       }}
                     />
                   ))}
@@ -169,8 +178,10 @@ export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack
                       key={relatedSupplier.id} 
                       supplier={relatedSupplier}
                       onClick={() => {
-                        // Handle related supplier click if needed
                         console.log('Related supplier clicked:', relatedSupplier.name);
+                        if (onSupplierClick) {
+                          onSupplierClick(relatedSupplier);
+                        }
                       }}
                     />
                   ))}

@@ -99,7 +99,14 @@ const Index = () => {
   };
 
   if (selectedSupplier) {
-    return <SupplierDetail supplier={selectedSupplier} onBack={handleBackToDirectory} />;
+    return (
+      <SupplierDetail 
+        supplier={selectedSupplier} 
+        onBack={handleBackToDirectory}
+        onSupplierClick={handleSupplierClick}
+        onProductClick={handleProductClick}
+      />
+    );
   }
 
   if (selectedProduct) {
