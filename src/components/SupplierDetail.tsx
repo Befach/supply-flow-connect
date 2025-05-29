@@ -100,9 +100,15 @@ export const SupplierDetail: React.FC<SupplierDetailProps> = ({
                     </Badge>
                   )}
                 </div>
-                <div className="flex items-center gap-2 text-gray-600 mb-4">
-                  <MapPin className="h-5 w-5" />
-                  <span>{supplier.address}</span>
+                <div className="flex items-center gap-4 text-gray-600 mb-4">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-5 w-5" />
+                    <span>{supplier.address}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span>•</span>
+                    <span>{supplier.partnershipYears} years in business</span>
+                  </div>
                 </div>
                 <p className="text-gray-600 text-lg leading-relaxed max-w-3xl">
                   {supplier.description}
