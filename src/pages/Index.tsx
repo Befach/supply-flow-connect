@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { Search, MapPin, Calendar, Users, ExternalLink, Filter } from 'lucide-react';
+import { Search, MapPin, Calendar, Users, ExternalLink, Filter, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -21,7 +21,7 @@ import type { Product } from '@/types/product';
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [searchType, setSearchType] = useState<string>('supplier');
+  const [searchType, setSearchType] = useState<string>('product');
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
@@ -131,32 +131,49 @@ const Index = () => {
               }
             </p>
             
-            {/* Search Bar with Dropdown */}
+            {/* Updated Search Bar */}
             <div className="relative max-w-2xl mx-auto mb-12">
-              <div className="flex gap-2">
+              <div className="flex items-center bg-white border-2 border-gray-200 rounded-full shadow-sm overflow-hidden">
                 <Select value={searchType} onValueChange={(value) => {
                   setSearchType(value);
                   setSearchTerm('');
                   setSelectedCategories([]);
                 }}>
-                  <SelectTrigger className="w-[140px] h-14 border-2 border-gray-200 focus:border-orange-500 transition-colors rounded-lg">
+                  <SelectTrigger className="w-[120px] h-12 border-0 rounded-l-full bg-transparent focus:ring-0 focus:ring-offset-0 pl-4">
                     <SelectValue placeholder="Search by" />
                   </SelectTrigger>
                   <SelectContent className="bg-white border border-gray-200 shadow-lg rounded-lg z-50">
-                    <SelectItem value="supplier" className="cursor-pointer hover:bg-orange-50">Supplier</SelectItem>
-                    <SelectItem value="product" className="cursor-pointer hover:bg-orange-50">Product</SelectItem>
+                    <SelectItem value="product" className="cursor-pointer hover:bg-orange-50">Products</SelectItem>
+                    <SelectItem value="supplier" className="cursor-pointer hover:bg-orange-50">Suppliers</SelectItem>
                   </SelectContent>
                 </Select>
                 
-                <div className="relative flex-1">
+                <Separator orientation="vertical" className="h-6 bg-gray-300" />
+                
+                <div className="flex-1 relative">
                   <Input
                     type="text"
-                    placeholder={`Search ${searchType === 'supplier' ? 'suppliers by name, category, or location' : 'products and services'}...`}
+                    placeholder="artificial leaves"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="h-14 text-lg border-2 border-gray-200 focus:border-orange-500 transition-colors rounded-lg"
+                    className="h-12 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-gray-600 placeholder:text-gray-400"
                   />
                 </div>
+                
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-12 w-12 hover:bg-gray-100 rounded-none"
+                >
+                  <Camera className="h-5 w-5 text-gray-600" />
+                </Button>
+                
+                <Button
+                  className="h-12 px-6 bg-orange-500 hover:bg-orange-600 text-white rounded-r-full rounded-l-none"
+                >
+                  <Search className="h-4 w-4 mr-2" />
+                  Search
+                </Button>
               </div>
             </div>
 
