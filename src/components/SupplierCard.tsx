@@ -8,16 +8,21 @@ import type { Supplier } from '@/types/supplier';
 
 interface SupplierCardProps {
   supplier: Supplier;
+  onClick?: () => void;
 }
 
-export const SupplierCard: React.FC<SupplierCardProps> = ({ supplier }) => {
+export const SupplierCard: React.FC<SupplierCardProps> = ({ supplier, onClick }) => {
   const handleViewDetails = () => {
-    // In a real app, this would navigate to the supplier detail page
-    window.open(`/supplier/${supplier.id}`, '_blank');
+    if (onClick) {
+      onClick();
+    } else {
+      // Fallback for external navigation
+      window.open(`/supplier/${supplier.id}`, '_blank');
+    }
   };
 
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 border-gray-200 overflow-hidden bg-white">
+    <Card className="group hover:shadow-lg transition-all duration-300 border-gray-200 overflow-hidden bg-white cursor-pointer" onClick={handleViewDetails}>
       {/* Image placeholder with box icon */}
       <div className="bg-gray-100 h-48 flex items-center justify-center">
         <div className="w-16 h-16">
@@ -81,7 +86,10 @@ export const SupplierCard: React.FC<SupplierCardProps> = ({ supplier }) => {
 
         <Button 
           className="w-full bg-orange-500 hover:bg-orange-600 text-white rounded-lg py-3 flex items-center justify-center gap-2"
-          onClick={handleViewDetails}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleViewDetails();
+          }}
         >
           View Details
           <ArrowRight className="h-4 w-4" />

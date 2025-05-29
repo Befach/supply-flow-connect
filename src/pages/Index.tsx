@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { SupplierCard } from '@/components/SupplierCard';
 import { CategoryFilter } from '@/components/CategoryFilter';
 import { Navigation } from '@/components/Navigation';
+import { SupplierDetail } from '@/components/SupplierDetail';
 import { suppliersData } from '@/data/suppliers';
 import type { Supplier } from '@/types/supplier';
 
@@ -17,6 +18,7 @@ const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [searchType, setSearchType] = useState<string>('supplier');
+  const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
 
   const filteredSuppliers = useMemo(() => {
     return suppliersData.filter(supplier => {
@@ -50,6 +52,18 @@ const Index = () => {
     return Array.from(categories).sort();
   }, []);
 
+  const handleSupplierClick = (supplier: Supplier) => {
+    setSelectedSupplier(supplier);
+  };
+
+  const handleBackToDirectory = () => {
+    setSelectedSupplier(null);
+  };
+
+  if (selectedSupplier) {
+    return <SupplierDetail supplier={selectedSupplier} onBack={handleBackToDirectory} />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -79,13 +93,12 @@ const Index = () => {
                 </Select>
                 
                 <div className="relative flex-1">
-                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                   <Input
                     type="text"
                     placeholder={`Search ${searchType === 'supplier' ? 'suppliers by name, category, or location' : 'products and services'}...`}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-12 h-14 text-lg border-2 border-gray-200 focus:border-orange-500 transition-colors rounded-lg"
+                    className="h-14 text-lg border-2 border-gray-200 focus:border-orange-500 transition-colors rounded-lg"
                   />
                 </div>
               </div>
@@ -156,7 +169,11 @@ const Index = () => {
         {filteredSuppliers.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredSuppliers.map((supplier) => (
-              <SupplierCard key={supplier.id} supplier={supplier} />
+              <SupplierCard 
+                key={supplier.id} 
+                supplier={supplier} 
+                onClick={() => handleSupplierClick(supplier)}
+              />
             ))}
           </div>
         ) : (
