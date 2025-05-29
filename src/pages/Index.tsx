@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { Search, MapPin, Calendar, Users, ExternalLink, Filter, Camera } from 'lucide-react';
+import { Search, MapPin, Calendar, Users, ExternalLink, Filter, Camera, TrendingUp, DollarSign, Truck, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -214,6 +214,159 @@ const Index = () => {
                 );
               })}
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Our Guarantee Section */}
+      <div className="bg-white py-16 border-b border-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              <span className="text-orange-500">OUR</span> GUARANTEE
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-16">
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <TrendingUp className="h-12 w-12 text-gray-700" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">We Guarantee</h3>
+              <p className="text-gray-600 mb-1">to help you</p>
+              <p className="text-gray-600 mb-1">increase your</p>
+              <p className="text-gray-900 font-medium">Revenues.</p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <DollarSign className="h-12 w-12 text-gray-700" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">We Guarantee</h3>
+              <p className="text-gray-600 mb-1">to help you</p>
+              <p className="text-gray-600 mb-1">reduce your</p>
+              <p className="text-gray-900 font-medium">Cost.</p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Truck className="h-12 w-12 text-gray-700" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Best landed</h3>
+              <p className="text-gray-600 mb-1">prices of</p>
+              <p className="text-gray-600 mb-1">Imported</p>
+              <p className="text-gray-900 font-medium">Products</p>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <p className="text-lg text-gray-700">
+              <span className="text-orange-500 font-semibold">120+ Customers</span> 
+              <span className="text-gray-900 font-semibold"> benefited with our Services till now</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Services Section */}
+      <div className="bg-gray-50 py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Globe className="h-12 w-12 text-gray-600" />
+              </div>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-xl font-semibold text-gray-900 border-b-2 border-orange-500 pb-2 inline-block">
+                  Sourcing
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 leading-relaxed">
+                  Our sourcing team links up with trusted global suppliers to score top-quality products at the best prices.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Truck className="h-12 w-12 text-gray-600" />
+              </div>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-xl font-semibold text-gray-900 border-b-2 border-orange-500 pb-2 inline-block">
+                  Logistics
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 leading-relaxed">
+                  Our international logistics simplifies imports to India with seamless end-to-end logistics.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <DollarSign className="h-12 w-12 text-gray-600" />
+              </div>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-xl font-semibold text-gray-900 border-b-2 border-orange-500 pb-2 inline-block">
+                  Letter of Credit
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 leading-relaxed">
+                  We use encrypted, secure payment methods to keep your transactions safe.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <TrendingUp className="h-12 w-12 text-gray-600" />
+              </div>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-xl font-semibold text-gray-900 border-b-2 border-orange-500 pb-2 inline-block">
+                  Extended Data Insights
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 leading-relaxed">
+                  We provide data analytics that will help you understand market trends and manage imports better.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Users className="h-12 w-12 text-gray-600" />
+              </div>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-xl font-semibold text-gray-900 border-b-2 border-orange-500 pb-2 inline-block">
+                  Customs Clearances
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 leading-relaxed">
+                  We make sure customs processes are smooth and avoid penalties due to delays.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
+              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Search className="h-12 w-12 text-gray-600" />
+              </div>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-xl font-semibold text-gray-900 border-b-2 border-orange-500 pb-2 inline-block">
+                  Ensure Quality SGS
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 leading-relaxed">
+                  Get sea freight solutions with trusted carriers, great service, and competitive pricing.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
