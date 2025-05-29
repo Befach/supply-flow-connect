@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SupplierCard } from '@/components/SupplierCard';
 import { CategoryFilter } from '@/components/CategoryFilter';
 import { Navigation } from '@/components/Navigation';
@@ -15,14 +16,23 @@ import type { Supplier } from '@/types/supplier';
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [searchType, setSearchType] = useState<string>('supplier');
 
   const filteredSuppliers = useMemo(() => {
     return suppliersData.filter(supplier => {
-      const matchesSearch = 
-        supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        supplier.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        supplier.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        supplier.categories.some(cat => cat.toLowerCase().includes(searchTerm.toLowerCase()));
+      let matchesSearch = false;
+      
+      if (searchType === 'supplier') {
+        matchesSearch = 
+          supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          supplier.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          supplier.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          supplier.categories.some(cat => cat.toLowerCase().includes(searchTerm.toLowerCase()));
+      } else if (searchType === 'product') {
+        matchesSearch = 
+          supplier.products.some(product => product.toLowerCase().includes(searchTerm.toLowerCase())) ||
+          supplier.categories.some(cat => cat.toLowerCase().includes(searchTerm.toLowerCase()));
+      }
 
       const matchesCategory = 
         selectedCategories.length === 0 || 
@@ -30,7 +40,7 @@ const Index = () => {
 
       return matchesSearch && matchesCategory && supplier.isActive;
     });
-  }, [searchTerm, selectedCategories]);
+  }, [searchTerm, selectedCategories, searchType]);
 
   const allCategories = useMemo(() => {
     const categories = new Set<string>();
@@ -55,16 +65,30 @@ const Index = () => {
               Quality partners that help us deliver excellence across the globe
             </p>
             
-            {/* Search Bar */}
+            {/* Search Bar with Dropdown */}
             <div className="relative max-w-2xl mx-auto mb-12">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-              <Input
-                type="text"
-                placeholder="Search suppliers by name, category, or location..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-12 h-14 text-lg border-2 border-gray-200 focus:border-orange-500 transition-colors rounded-lg"
-              />
+              <div className="flex gap-2">
+                <Select value={searchType} onValueChange={setSearchType}>
+                  <SelectTrigger className="w-[140px] h-14 border-2 border-gray-200 focus:border-orange-500 transition-colors rounded-lg">
+                    <SelectValue placeholder="Search by" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border border-gray-200 shadow-lg rounded-lg z-50">
+                    <SelectItem value="supplier" className="cursor-pointer hover:bg-orange-50">Supplier</SelectItem>
+                    <SelectItem value="product" className="cursor-pointer hover:bg-orange-50">Product</SelectItem>
+                  </SelectContent>
+                </Select>
+                
+                <div className="relative flex-1">
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                  <Input
+                    type="text"
+                    placeholder={`Search ${searchType === 'supplier' ? 'suppliers by name, category, or location' : 'products and services'}...`}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-12 h-14 text-lg border-2 border-gray-200 focus:border-orange-500 transition-colors rounded-lg"
+                  />
+                </div>
+              </div>
             </div>
 
             {/* Category Filter Pills */}
