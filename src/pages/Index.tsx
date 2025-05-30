@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { HeroSection } from '@/components/HeroSection';
 import { ServicesSection } from '@/components/ServicesSection';
+import { StatsSection } from '@/components/StatsSection';
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
@@ -51,6 +52,7 @@ const Index = () => {
       />
 
       <ServicesSection />
+      <StatsSection />
     </div>
   );
 };
