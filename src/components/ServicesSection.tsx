@@ -21,8 +21,7 @@ export const ServicesSection: React.FC = () => {
       icon: CreditCard,
       title: "Letter of Credit",
       description: "We use encrypted, secure payment methods to keep your transactions safe.",
-      iconBgColor: "bg-orange-500",
-      highlighted: true
+      iconBgColor: "bg-orange-500"
     },
     {
       icon: FileText,
