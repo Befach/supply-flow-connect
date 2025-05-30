@@ -2,8 +2,7 @@
 import React from 'react';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { CategoryFilter } from '@/components/CategoryFilter';
-import { SupplierCard } from '@/components/SupplierCard';
+import { Button } from '@/components/ui/button';
 import type { Supplier } from '@/types/supplier';
 
 interface SupplierSearchSidebarProps {
@@ -41,13 +40,27 @@ export const SupplierSearchSidebar: React.FC<SupplierSearchSidebarProps> = ({
         />
       </div>
 
-      {/* Category Filter */}
+      {/* Category Filter Buttons */}
       <div className="mb-6">
-        <CategoryFilter
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onCategoryChange={onCategoryChange}
-        />
+        <div className="grid grid-cols-2 gap-2">
+          <Button
+            variant={selectedCategory === 'all' ? "default" : "outline"}
+            onClick={() => onCategoryChange('all')}
+            className="text-xs h-8"
+          >
+            All Categories
+          </Button>
+          {categories.slice(0, 7).map((category) => (
+            <Button
+              key={category}
+              variant={selectedCategory === category ? "default" : "outline"}
+              onClick={() => onCategoryChange(category)}
+              className="text-xs h-8"
+            >
+              {category}
+            </Button>
+          ))}
+        </div>
       </div>
 
       {/* Suppliers Found */}
@@ -57,18 +70,39 @@ export const SupplierSearchSidebar: React.FC<SupplierSearchSidebarProps> = ({
           {suppliers.map((supplier) => (
             <div
               key={supplier.id}
-              className="border border-gray-200 rounded-lg p-3 cursor-pointer hover:bg-gray-50 transition-colors"
+              className="border border-gray-200 rounded-lg p-4 cursor-pointer hover:bg-gray-50 transition-colors"
               onClick={() => onSupplierSelect(supplier)}
             >
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-gray-200 rounded-full flex-shrink-0"></div>
+              <div className="flex gap-4">
+                {/* Supplier Avatar/Logo */}
+                <div className="w-12 h-12 bg-gray-200 rounded-full flex-shrink-0"></div>
+                
+                {/* Supplier Info */}
                 <div className="flex-1 min-w-0">
-                  <h5 className="text-sm font-medium text-gray-900 truncate">
-                    {supplier.name}
-                  </h5>
-                  <p className="text-xs text-gray-600 mt-1 line-clamp-2">
-                    {supplier.description}
-                  </p>
+                  <div className="flex justify-between items-start mb-2">
+                    <h5 className="text-sm font-medium text-gray-900 truncate">
+                      {supplier.name}
+                    </h5>
+                    <div className="text-xs text-gray-500">
+                      ★ {supplier.rating}
+                    </div>
+                  </div>
+                  
+                  {/* Description lines */}
+                  <div className="space-y-1 mb-3">
+                    <div className="h-2 bg-gray-200 rounded w-full"></div>
+                    <div className="h-2 bg-gray-200 rounded w-3/4"></div>
+                    <div className="h-2 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                  
+                  {/* Action Button */}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-xs h-6 px-2"
+                  >
+                    View Details
+                  </Button>
                 </div>
               </div>
             </div>
