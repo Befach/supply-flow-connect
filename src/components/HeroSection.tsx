@@ -41,7 +41,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   const handleSearchTypeChange = (type: 'suppliers' | 'products') => {
     onSearchTypeChange(type);
-    // Navigate immediately when search type changes
+    // Navigate immediately when search type changes with current search term
     if (type === 'suppliers') {
       navigate('/suppliers', { 
         state: { searchTerm, selectedCategory } 
