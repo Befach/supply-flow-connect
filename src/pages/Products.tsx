@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -14,7 +13,7 @@ import type { Supplier } from '@/types/supplier';
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
 
@@ -29,7 +28,7 @@ const Products = () => {
                           product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           product.category.toLowerCase().includes(searchTerm.toLowerCase());
       
-      const matchesCategory = !selectedCategory || product.category === selectedCategory;
+      const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
       
       return matchesSearch && matchesCategory;
     });
