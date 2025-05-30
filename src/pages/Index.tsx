@@ -6,24 +6,17 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SupplierCard } from '@/components/SupplierCard';
-import { ProductCard } from '@/components/ProductCard';
 import { CategoryFilter } from '@/components/CategoryFilter';
 import { Navigation } from '@/components/Navigation';
 import { SupplierDetail } from '@/components/SupplierDetail';
-import { ProductDetail } from '@/components/ProductDetail';
 import { suppliersData } from '@/data/suppliers';
-import { productsData } from '@/data/products';
 import type { Supplier } from '@/types/supplier';
-import type { Product } from '@/types/product';
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [searchType, setSearchType] = useState<string>('product');
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const filteredSuppliers = useMemo(() => {
     return suppliersData.filter(supplier => {
@@ -43,59 +36,20 @@ const Index = () => {
     });
   }, [searchTerm, selectedCategories]);
 
-  const filteredProducts = useMemo(() => {
-    return productsData.filter(product => {
-      let matchesSearch = false;
-      
-      matchesSearch = 
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.supplierName.toLowerCase().includes(searchTerm.toLowerCase());
-
-      const matchesCategory = 
-        selectedCategories.length === 0 || 
-        selectedCategories.includes(product.category);
-
-      return matchesSearch && matchesCategory && product.isActive;
-    });
-  }, [searchTerm, selectedCategories]);
-
   const allCategories = useMemo(() => {
     const categories = new Set<string>();
-    if (searchType === 'supplier') {
-      suppliersData.forEach(supplier => {
-        supplier.categories.forEach(cat => categories.add(cat));
-      });
-    } else {
-      productsData.forEach(product => {
-        categories.add(product.category);
-      });
-    }
+    suppliersData.forEach(supplier => {
+      supplier.categories.forEach(cat => categories.add(cat));
+    });
     return Array.from(categories).sort();
-  }, [searchType]);
+  }, []);
 
   const handleSupplierClick = (supplier: Supplier) => {
     setSelectedSupplier(supplier);
   };
 
-  const handleProductClick = (product: Product) => {
-    setSelectedProduct(product);
-  };
-
-  const handleViewSupplierFromProduct = () => {
-    if (selectedProduct) {
-      const supplier = suppliersData.find(s => s.id === selectedProduct.supplierId);
-      if (supplier) {
-        setSelectedProduct(null);
-        setSelectedSupplier(supplier);
-      }
-    }
-  };
-
   const handleBackToDirectory = () => {
     setSelectedSupplier(null);
-    setSelectedProduct(null);
   };
 
   if (selectedSupplier) {
@@ -104,13 +58,9 @@ const Index = () => {
         supplier={selectedSupplier} 
         onBack={handleBackToDirectory}
         onSupplierClick={handleSupplierClick}
-        onProductClick={handleProductClick}
+        onProductClick={() => {}}
       />
     );
-  }
-
-  if (selectedProduct) {
-    return <ProductDetail product={selectedProduct} onBack={handleBackToDirectory} onViewSupplier={handleViewSupplierFromProduct} />;
   }
 
   return (
@@ -122,41 +72,22 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              {searchType === 'supplier' ? 'Our Trusted Suppliers' : 'Quality Products'}
+              Our Trusted Suppliers
             </h1>
             <p className="text-lg text-gray-600 mb-12">
-              {searchType === 'supplier' 
-                ? 'Quality partners that help us deliver excellence across the globe'
-                : 'Discover premium products from our verified suppliers'
-              }
+              Quality partners that help us deliver excellence across the globe
             </p>
             
             {/* Updated Search Bar */}
             <div className="relative max-w-2xl mx-auto mb-12">
               <div className="flex items-center bg-white border-2 border-gray-200 rounded-full shadow-sm overflow-hidden">
-                <Select value={searchType} onValueChange={(value) => {
-                  setSearchType(value);
-                  setSearchTerm('');
-                  setSelectedCategories([]);
-                }}>
-                  <SelectTrigger className="w-[120px] h-12 border-0 rounded-l-full bg-transparent focus:ring-0 focus:ring-offset-0 pl-4">
-                    <SelectValue placeholder="Search by" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border border-gray-200 shadow-lg rounded-lg z-50">
-                    <SelectItem value="product" className="cursor-pointer hover:bg-orange-50">Products</SelectItem>
-                    <SelectItem value="supplier" className="cursor-pointer hover:bg-orange-50">Suppliers</SelectItem>
-                  </SelectContent>
-                </Select>
-                
-                <Separator orientation="vertical" className="h-6 bg-gray-300" />
-                
                 <div className="flex-1 relative">
                   <Input
                     type="text"
-                    placeholder="artificial leaves"
+                    placeholder="Search suppliers..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="h-12 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-gray-600 placeholder:text-gray-400"
+                    className="h-12 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-gray-600 placeholder:text-gray-400 pl-6"
                   />
                 </div>
                 
@@ -188,7 +119,7 @@ const Index = () => {
                 }`}
                 onClick={() => setSelectedCategories([])}
               >
-                All {searchType === 'supplier' ? 'Suppliers' : 'Products'}
+                All Suppliers
               </Badge>
               {allCategories.slice(0, 9).map((category) => {
                 const isSelected = selectedCategories.includes(category);
@@ -339,76 +270,39 @@ const Index = () => {
         </div>
 
         {/* Results Grid */}
-        {searchType === 'supplier' ? (
-          filteredSuppliers.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredSuppliers.map((supplier) => (
-                <SupplierCard 
-                  key={supplier.id} 
-                  supplier={supplier} 
-                  onClick={() => handleSupplierClick(supplier)}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <div className="max-w-md mx-auto">
-                <div className="mb-4">
-                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Search className="h-8 w-8 text-gray-400" />
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No suppliers found</h3>
-                <p className="text-gray-600 mb-4">
-                  Try adjusting your search terms or filters to find what you're looking for.
-                </p>
-                <Button 
-                  onClick={() => {
-                    setSearchTerm('');
-                    setSelectedCategories([]);
-                  }}
-                  className="bg-orange-600 hover:bg-orange-700"
-                >
-                  Show All Suppliers
-                </Button>
-              </div>
-            </div>
-          )
+        {filteredSuppliers.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredSuppliers.map((supplier) => (
+              <SupplierCard 
+                key={supplier.id} 
+                supplier={supplier} 
+                onClick={() => handleSupplierClick(supplier)}
+              />
+            ))}
+          </div>
         ) : (
-          filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProducts.map((product) => (
-                <ProductCard 
-                  key={product.id} 
-                  product={product} 
-                  onClick={() => handleProductClick(product)}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <div className="max-w-md mx-auto">
-                <div className="mb-4">
-                  <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Search className="h-8 w-8 text-gray-400" />
-                  </div>
+          <div className="text-center py-12">
+            <div className="max-w-md mx-auto">
+              <div className="mb-4">
+                <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="h-8 w-8 text-gray-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
-                <p className="text-gray-600 mb-4">
-                  Try adjusting your search terms or filters to find what you're looking for.
-                </p>
-                <Button 
-                  onClick={() => {
-                    setSearchTerm('');
-                    setSelectedCategories([]);
-                  }}
-                  className="bg-orange-600 hover:bg-orange-700"
-                >
-                  Show All Products
-                </Button>
               </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">No suppliers found</h3>
+              <p className="text-gray-600 mb-4">
+                Try adjusting your search terms or filters to find what you're looking for.
+              </p>
+              <Button 
+                onClick={() => {
+                  setSearchTerm('');
+                  setSelectedCategories([]);
+                }}
+                className="bg-orange-600 hover:bg-orange-700"
+              >
+                Show All Suppliers
+              </Button>
             </div>
-          )
+          </div>
         )}
       </div>
     </div>
