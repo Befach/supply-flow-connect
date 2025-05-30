@@ -21,7 +21,8 @@ export const ServicesSection: React.FC = () => {
       icon: CreditCard,
       title: "Letter of Credit",
       description: "We use encrypted, secure payment methods to keep your transactions safe.",
-      iconBgColor: "bg-orange-500"
+      iconBgColor: "bg-orange-500",
+      highlighted: true
     },
     {
       icon: FileText,
@@ -44,9 +45,9 @@ export const ServicesSection: React.FC = () => {
   ];
 
   return (
-    <div className="bg-gray-50 py-8">
+    <div className="bg-gray-50 py-12">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {services.map((service, index) => (
             <ServiceCard
               key={index}
@@ -54,6 +55,7 @@ export const ServicesSection: React.FC = () => {
               title={service.title}
               description={service.description}
               iconBgColor={service.iconBgColor}
+              highlighted={service.highlighted}
             />
           ))}
         </div>
