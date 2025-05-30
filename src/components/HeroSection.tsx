@@ -29,17 +29,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   };
 
   return (
-    <div className="bg-white py-16">
+    <div className="bg-white py-8">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
             Find What You Need
           </h1>
-          <p className="text-lg text-gray-600 mb-12">
+          <p className="text-lg text-gray-600 mb-8">
             Search for suppliers and products across the globe
           </p>
           
-          <div className="relative max-w-2xl mx-auto mb-8">
+          <div className="relative max-w-2xl mx-auto mb-6">
             <div className="flex items-center gap-2">
               <SearchDropdown 
                 searchType={searchType} 
@@ -60,9 +60,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               
               <Button
                 onClick={handleSearch}
-                className="h-12 px-6 rounded-full bg-orange-500 hover:bg-orange-600 text-white"
+                className="h-12 w-12 rounded-full bg-orange-500 hover:bg-orange-600 text-white p-0"
               >
-                Search
+                <Search className="h-5 w-5" />
               </Button>
             </div>
           </div>
