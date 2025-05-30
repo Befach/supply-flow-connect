@@ -1,8 +1,6 @@
-
 import React, { useState } from 'react';
-import { Search, Camera, TrendingUp, DollarSign, Truck, Globe, ChevronDown, Users, ChevronRight, Package } from 'lucide-react';
+import { Camera, TrendingUp, DollarSign, Truck, Globe, ChevronDown, Users, ChevronRight, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   DropdownMenu,
@@ -14,7 +12,6 @@ import { Navigation } from '@/components/Navigation';
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
-  const [searchTerm, setSearchTerm] = useState('');
   const [searchType, setSearchType] = useState<'suppliers' | 'products'>('suppliers');
   const [selectedCategory, setSelectedCategory] = useState('All Suppliers');
   const navigate = useNavigate();
@@ -32,14 +29,6 @@ const Index = () => {
     'Sustainable Products',
     'Textiles'
   ];
-
-  const handleSearch = () => {
-    if (searchType === 'suppliers') {
-      navigate('/suppliers', { replace: true });
-    } else if (searchType === 'products') {
-      navigate('/products', { replace: true });
-    }
-  };
 
   const handleDropdownClick = (type: 'suppliers' | 'products') => {
     setSearchType(type);
@@ -70,18 +59,18 @@ const Index = () => {
               Search for suppliers and products across the globe
             </p>
             
-            {/* Updated Search Bar with Icons Only */}
+            {/* Updated Search Bar - Dropdown Only */}
             <div className="relative max-w-2xl mx-auto mb-8">
-              <div className="flex items-center bg-white border-2 border-gray-200 rounded-full shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-center">
                 {/* Search Type Dropdown */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="ghost"
-                      className={`h-12 px-6 rounded-none border-r border-gray-200 capitalize flex items-center gap-2 transition-colors ${
+                      className={`h-12 px-6 rounded-full capitalize flex items-center gap-2 transition-colors shadow-sm border-2 border-gray-200 hover:shadow-md ${
                         searchType === 'suppliers' 
                           ? 'bg-orange-500 text-white hover:bg-orange-600' 
-                          : 'hover:bg-gray-100'
+                          : 'bg-white hover:bg-gray-100'
                       }`}
                     >
                       {searchType === 'suppliers' ? (
@@ -89,6 +78,7 @@ const Index = () => {
                       ) : (
                         <Package className="h-5 w-5" />
                       )}
+                      <span className="capitalize">{searchType}</span>
                       <ChevronDown className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -109,32 +99,6 @@ const Index = () => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-
-                <div className="flex-1 relative">
-                  <Input
-                    type="text"
-                    placeholder={`Search ${searchType}...`}
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="h-12 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-gray-600 placeholder:text-gray-400 pl-6"
-                  />
-                </div>
-                
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-12 w-12 hover:bg-gray-100 rounded-none"
-                >
-                  <Camera className="h-5 w-5 text-gray-600" />
-                </Button>
-                
-                <Button
-                  onClick={handleSearch}
-                  className="h-12 px-6 bg-orange-500 hover:bg-orange-600 text-white rounded-r-full rounded-l-none transition-colors"
-                >
-                  <Search className="h-4 w-4 mr-2" />
-                  Search
-                </Button>
               </div>
             </div>
 
