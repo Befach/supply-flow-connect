@@ -1,9 +1,11 @@
 
-import React, { useState } from 'react';
-import { Search, Camera, TrendingUp, DollarSign, Truck, Globe, ChevronDown, Users } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Search, MapPin, Calendar, Users, ExternalLink, Filter, Camera, TrendingUp, DollarSign, Truck, Globe, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,29 +13,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Navigation } from '@/components/Navigation';
-import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchType, setSearchType] = useState<'suppliers' | 'products'>('suppliers');
-  const navigate = useNavigate();
-
-  const handleSearch = () => {
-    if (searchType === 'suppliers') {
-      navigate('/suppliers');
-    } else if (searchType === 'products') {
-      navigate('/products');
-    }
-  };
-
-  const handleDropdownClick = (type: 'suppliers' | 'products') => {
-    setSearchType(type);
-    if (type === 'suppliers') {
-      navigate('/suppliers');
-    } else if (type === 'products') {
-      navigate('/products');
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -66,13 +49,13 @@ const Index = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start" className="bg-white border border-gray-200 shadow-md">
                     <DropdownMenuItem 
-                      onClick={() => handleDropdownClick('suppliers')}
+                      onClick={() => setSearchType('suppliers')}
                       className="hover:bg-gray-100 cursor-pointer"
                     >
                       Suppliers
                     </DropdownMenuItem>
                     <DropdownMenuItem 
-                      onClick={() => handleDropdownClick('products')}
+                      onClick={() => setSearchType('products')}
                       className="hover:bg-gray-100 cursor-pointer"
                     >
                       Products
@@ -99,7 +82,6 @@ const Index = () => {
                 </Button>
                 
                 <Button
-                  onClick={handleSearch}
                   className="h-12 px-6 bg-orange-500 hover:bg-orange-600 text-white rounded-r-full rounded-l-none"
                 >
                   <Search className="h-4 w-4 mr-2" />

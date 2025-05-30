@@ -4,10 +4,12 @@ export interface Product {
   name: string;
   description: string;
   category: string;
-  price: number;
-  currency: string;
+  supplierId: string;
   supplierName: string;
+  supplierLogo: string;
   image: string;
-  specifications: Record<string, string>;
-  inStock: boolean;
+  specifications: string[];
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
