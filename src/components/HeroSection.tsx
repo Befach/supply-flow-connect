@@ -1,5 +1,8 @@
 
-import React from 'react';
+import React, { useState } from 'react';
+import { Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { SearchDropdown } from './SearchDropdown';
 import { CategoryFilterButtons } from './CategoryFilterButtons';
 
@@ -18,6 +21,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onSearchTypeChange,
   onCategoryClick,
 }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = () => {
+    console.log('Searching for:', searchTerm, 'in', searchType);
+    // Search functionality can be implemented here
+  };
+
   return (
     <div className="bg-white py-16">
       <div className="container mx-auto px-4">
@@ -30,10 +40,31 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </p>
           
           <div className="relative max-w-2xl mx-auto mb-8">
-            <SearchDropdown 
-              searchType={searchType} 
-              onSearchTypeChange={onSearchTypeChange} 
-            />
+            <div className="flex items-center gap-2">
+              <SearchDropdown 
+                searchType={searchType} 
+                onSearchTypeChange={onSearchTypeChange} 
+              />
+              
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  type="text"
+                  placeholder={`Search ${searchType}...`}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 h-12 rounded-full border-2 border-gray-200"
+                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                />
+              </div>
+              
+              <Button
+                onClick={handleSearch}
+                className="h-12 px-6 rounded-full bg-orange-500 hover:bg-orange-600 text-white"
+              >
+                Search
+              </Button>
+            </div>
           </div>
 
           <CategoryFilterButtons
