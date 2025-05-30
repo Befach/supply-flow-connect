@@ -13,12 +13,14 @@ interface ProductDetailProps {
   product: Product;
   onBack: () => void;
   onViewSupplier: () => void;
+  onProductClick?: (product: Product) => void;
 }
 
 export const ProductDetail: React.FC<ProductDetailProps> = ({ 
   product, 
   onBack, 
-  onViewSupplier 
+  onViewSupplier,
+  onProductClick 
 }) => {
   const relatedProducts = products.filter(p => 
     p.category === product.category && p.id !== product.id
@@ -27,6 +29,12 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
   const productSuppliers = suppliers.filter(s => 
     s.name === product.supplierName
   );
+
+  const handleRelatedProductClick = (relatedProduct: Product) => {
+    if (onProductClick) {
+      onProductClick(relatedProduct);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -140,7 +148,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             <h2 className="text-xl font-semibold mb-4">Related Products</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {relatedProducts.map((relatedProduct) => (
-                <Card key={relatedProduct.id} className="cursor-pointer hover:shadow-md transition-shadow">
+                <Card 
+                  key={relatedProduct.id} 
+                  className="cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => handleRelatedProductClick(relatedProduct)}
+                >
                   <CardContent className="p-4">
                     <div className="w-full h-24 bg-gray-200 rounded-lg mb-3"></div>
                     <h4 className="font-medium text-gray-900 mb-1">{relatedProduct.name}</h4>

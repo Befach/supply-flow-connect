@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -75,6 +74,10 @@ const Products = () => {
     }
   };
 
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+  };
+
   const handleSearchTypeChange = () => {
     // Keep it as products since we're on the product page
   };
@@ -98,6 +101,7 @@ const Products = () => {
         product={selectedProduct}
         onBack={() => setSelectedProduct(null)}
         onViewSupplier={handleViewSupplier}
+        onProductClick={handleProductClick}
       />
     );
   }
