@@ -1,12 +1,15 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Navigation } from '@/components/Navigation';
+import { HeroSection } from '@/components/HeroSection';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductDetail } from '@/components/ProductDetail';
+import { CategoryFilter } from '@/components/CategoryFilter';
 import { SupplierDetail } from '@/components/SupplierDetail';
-import { CategoryFilterButtons } from '@/components/CategoryFilterButtons';
+import { FeaturedProductSection } from '@/components/FeaturedProductSection';
+import { SuppliersListSection } from '@/components/SuppliersListSection';
+import { RelatedProductsSection } from '@/components/RelatedProductsSection';
 import { products } from '@/data/products';
 import { suppliers } from '@/data/suppliers';
 import { useLocation } from 'react-router-dom';
@@ -19,6 +22,7 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All Categories');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
+  const [searchType] = useState<'suppliers' | 'products'>('products');
 
   const categories = [
     'All Categories',
@@ -43,6 +47,11 @@ const Products = () => {
       setSelectedCategory(location.state.selectedCategory);
     }
   }, [location.state]);
+
+  const productCategories = useMemo(() => {
+    const allCategories = products.map(product => product.category);
+    return Array.from(new Set(allCategories));
+  }, []);
 
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
@@ -72,9 +81,26 @@ const Products = () => {
     setSelectedProduct(product);
   };
 
+  const handleSearchTypeChange = () => {
+    // Keep it as products since we're on the product page
+  };
+
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
   };
+
+  // Get featured product (first product for now)
+  const featuredProduct = products[0];
+  
+  // Get suppliers for the featured product
+  const featuredProductSuppliers = suppliers.filter(s => 
+    s.name === featuredProduct?.supplierName
+  );
+
+  // Get related products (same category as featured, excluding featured)
+  const relatedProducts = products.filter(p => 
+    p.category === featuredProduct?.category && p.id !== featuredProduct?.id
+  ).slice(0, 3);
 
   if (selectedSupplier) {
     return (
@@ -100,54 +126,35 @@ const Products = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
+      <HeroSection
+        searchType={searchType}
+        selectedCategory={selectedCategory}
+        categories={categories}
+        onSearchTypeChange={handleSearchTypeChange}
+        onCategoryClick={handleCategoryClick}
+      />
+      
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
-          {/* Page Title */}
-          <h1 className="text-3xl font-bold text-center mb-8">Search page (Product)</h1>
-          
-          {/* Search Bar */}
-          <div className="relative max-w-2xl mx-auto mb-8">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-            <Input
-              type="text"
-              placeholder="Search products..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12 h-14 text-lg rounded-full border-2 border-gray-200 focus:border-orange-500"
+        <div className="max-w-6xl mx-auto space-y-8">
+          {/* Featured Product Section */}
+          {featuredProduct && (
+            <FeaturedProductSection 
+              product={featuredProduct}
+              onProductClick={() => setSelectedProduct(featuredProduct)}
             />
-          </div>
+          )}
 
-          {/* Category Filter Buttons */}
-          <CategoryFilterButtons 
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onCategoryClick={handleCategoryClick}
+          {/* Suppliers Found Section */}
+          <SuppliersListSection 
+            suppliers={featuredProductSuppliers}
+            onSupplierClick={(supplier) => setSelectedSupplier(supplier)}
           />
 
-          {/* Products Found Header */}
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold">
-              Products found: {filteredProducts.length}
-            </h2>
-          </div>
-
-          {/* Products Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onClick={() => handleProductClick(product)}
-              />
-            ))}
-          </div>
-
-          {/* No Products Found */}
-          {filteredProducts.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No products found matching your criteria.</p>
-            </div>
-          )}
+          {/* Related Products Section */}
+          <RelatedProductsSection 
+            products={relatedProducts}
+            onProductClick={handleProductClick}
+          />
         </div>
       </div>
     </div>
