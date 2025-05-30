@@ -7,6 +7,9 @@ import { ProductCard } from '@/components/ProductCard';
 import { ProductDetail } from '@/components/ProductDetail';
 import { CategoryFilter } from '@/components/CategoryFilter';
 import { SupplierDetail } from '@/components/SupplierDetail';
+import { FeaturedProductSection } from '@/components/FeaturedProductSection';
+import { SuppliersListSection } from '@/components/SuppliersListSection';
+import { RelatedProductsSection } from '@/components/RelatedProductsSection';
 import { products } from '@/data/products';
 import { suppliers } from '@/data/suppliers';
 import { useLocation } from 'react-router-dom';
@@ -86,6 +89,19 @@ const Products = () => {
     setSelectedCategory(category);
   };
 
+  // Get featured product (first product for now)
+  const featuredProduct = products[0];
+  
+  // Get suppliers for the featured product
+  const featuredProductSuppliers = suppliers.filter(s => 
+    s.name === featuredProduct?.supplierName
+  );
+
+  // Get related products (same category as featured, excluding featured)
+  const relatedProducts = products.filter(p => 
+    p.category === featuredProduct?.category && p.id !== featuredProduct?.id
+  ).slice(0, 3);
+
   if (selectedSupplier) {
     return (
       <SupplierDetail 
@@ -119,63 +135,26 @@ const Products = () => {
       />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
-          {/* Search Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-            <div className="flex flex-col gap-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  type="text"
-                  placeholder="Search products..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 h-12"
-                />
-              </div>
-              
-              {/* Category Filter Buttons */}
-              <div className="flex flex-wrap gap-2">
-                {productCategories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`px-4 py-2 rounded-full text-sm transition-colors ${
-                      selectedCategory === category
-                        ? 'bg-orange-500 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Products Found Label */}
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Products found: {filteredProducts.length}
-            </h2>
-          </div>
-
-          {/* Products Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onClick={() => setSelectedProduct(product)}
-              />
-            ))}
-          </div>
-
-          {filteredProducts.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No products found matching your criteria.</p>
-            </div>
+        <div className="max-w-6xl mx-auto space-y-8">
+          {/* Featured Product Section */}
+          {featuredProduct && (
+            <FeaturedProductSection 
+              product={featuredProduct}
+              onProductClick={() => setSelectedProduct(featuredProduct)}
+            />
           )}
+
+          {/* Suppliers Found Section */}
+          <SuppliersListSection 
+            suppliers={featuredProductSuppliers}
+            onSupplierClick={(supplier) => setSelectedSupplier(supplier)}
+          />
+
+          {/* Related Products Section */}
+          <RelatedProductsSection 
+            products={relatedProducts}
+            onProductClick={handleProductClick}
+          />
         </div>
       </div>
     </div>
