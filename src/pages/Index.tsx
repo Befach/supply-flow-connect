@@ -26,6 +26,15 @@ const Index = () => {
     }
   };
 
+  const handleDropdownClick = (type: 'suppliers' | 'products') => {
+    setSearchType(type);
+    if (type === 'suppliers') {
+      navigate('/suppliers');
+    } else if (type === 'products') {
+      navigate('/products');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -57,13 +66,13 @@ const Index = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start" className="bg-white border border-gray-200 shadow-md">
                     <DropdownMenuItem 
-                      onClick={() => setSearchType('suppliers')}
+                      onClick={() => handleDropdownClick('suppliers')}
                       className="hover:bg-gray-100 cursor-pointer"
                     >
                       Suppliers
                     </DropdownMenuItem>
                     <DropdownMenuItem 
-                      onClick={() => setSearchType('products')}
+                      onClick={() => handleDropdownClick('products')}
                       className="hover:bg-gray-100 cursor-pointer"
                     >
                       Products
