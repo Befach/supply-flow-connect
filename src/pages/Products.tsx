@@ -1,8 +1,8 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Navigation } from '@/components/Navigation';
+import { HeroSection } from '@/components/HeroSection';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductDetail } from '@/components/ProductDetail';
 import { CategoryFilter } from '@/components/CategoryFilter';
@@ -16,21 +16,36 @@ import type { Supplier } from '@/types/supplier';
 const Products = () => {
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All Categories');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
+  const [searchType] = useState<'suppliers' | 'products'>('products');
+
+  const categories = [
+    'All Categories',
+    'Agriculture',
+    'Electronics', 
+    'Fabrics',
+    'Food',
+    'Manufacturing',
+    'Organic',
+    'Packaging',
+    'Raw Materials',
+    'Sustainable Products',
+    'Textiles'
+  ];
 
   // Handle search term from navigation state
   useEffect(() => {
     if (location.state?.searchTerm) {
       setSearchTerm(location.state.searchTerm);
     }
-    if (location.state?.selectedCategory && location.state.selectedCategory !== 'All Suppliers') {
+    if (location.state?.selectedCategory && location.state.selectedCategory !== 'All Categories') {
       setSelectedCategory(location.state.selectedCategory);
     }
   }, [location.state]);
 
-  const categories = useMemo(() => {
+  const productCategories = useMemo(() => {
     const allCategories = products.map(product => product.category);
     return Array.from(new Set(allCategories));
   }, []);
@@ -41,7 +56,9 @@ const Products = () => {
                           product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           product.category.toLowerCase().includes(searchTerm.toLowerCase());
       
-      const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+      const matchesCategory = selectedCategory === 'All Categories' || 
+                             selectedCategory === 'all' || 
+                             product.category === selectedCategory;
       
       return matchesSearch && matchesCategory;
     });
@@ -55,6 +72,14 @@ const Products = () => {
         setSelectedProduct(null);
       }
     }
+  };
+
+  const handleSearchTypeChange = () => {
+    // Keep it as products since we're on the product page
+  };
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
   };
 
   if (selectedSupplier) {
@@ -80,10 +105,16 @@ const Products = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
+      <HeroSection
+        searchType={searchType}
+        selectedCategory={selectedCategory}
+        categories={categories}
+        onSearchTypeChange={handleSearchTypeChange}
+        onCategoryClick={handleCategoryClick}
+      />
+      
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">Products</h1>
-          
           {/* Search and Filter Section */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
             <div className="flex flex-col lg:flex-row gap-4">
@@ -102,9 +133,9 @@ const Products = () => {
               
               <div className="lg:w-64">
                 <CategoryFilter
-                  categories={categories}
-                  selectedCategory={selectedCategory}
-                  onCategoryChange={setSelectedCategory}
+                  categories={productCategories}
+                  selectedCategory={selectedCategory === 'All Categories' ? 'all' : selectedCategory}
+                  onCategoryChange={(category) => setSelectedCategory(category === 'all' ? 'All Categories' : category)}
                 />
               </div>
             </div>
