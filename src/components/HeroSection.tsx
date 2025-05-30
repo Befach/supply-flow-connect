@@ -39,6 +39,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     }
   };
 
+  const handleSearchTypeChange = (type: 'suppliers' | 'products') => {
+    onSearchTypeChange(type);
+    // Navigate immediately when search type changes
+    if (type === 'suppliers') {
+      navigate('/suppliers', { 
+        state: { searchTerm, selectedCategory } 
+      });
+    } else if (type === 'products') {
+      navigate('/products', { 
+        state: { searchTerm, selectedCategory } 
+      });
+    }
+  };
+
   return (
     <div className="bg-white py-8">
       <div className="container mx-auto px-4">
@@ -54,7 +68,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="flex items-center gap-2">
               <SearchDropdown 
                 searchType={searchType} 
-                onSearchTypeChange={onSearchTypeChange} 
+                onSearchTypeChange={handleSearchTypeChange} 
               />
               
               <div className="flex-1 relative">
