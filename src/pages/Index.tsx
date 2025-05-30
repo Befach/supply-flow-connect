@@ -218,56 +218,6 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Our Guarantee Section */}
-      <div className="bg-white py-16 border-b border-gray-100">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              <span className="text-orange-500">OUR</span> GUARANTEE
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-16">
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <TrendingUp className="h-12 w-12 text-gray-700" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">We Guarantee</h3>
-              <p className="text-gray-600 mb-1">to help you</p>
-              <p className="text-gray-600 mb-1">increase your</p>
-              <p className="text-gray-900 font-medium">Revenues.</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <DollarSign className="h-12 w-12 text-gray-700" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">We Guarantee</h3>
-              <p className="text-gray-600 mb-1">to help you</p>
-              <p className="text-gray-600 mb-1">reduce your</p>
-              <p className="text-gray-900 font-medium">Cost.</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Truck className="h-12 w-12 text-gray-700" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Best landed</h3>
-              <p className="text-gray-600 mb-1">prices of</p>
-              <p className="text-gray-600 mb-1">Imported</p>
-              <p className="text-gray-900 font-medium">Products</p>
-            </div>
-          </div>
-
-          <div className="text-center">
-            <p className="text-3xl lg:text-4xl font-bold text-gray-700">
-              <span className="text-orange-500">120+ Customers</span> 
-              <span className="text-gray-900"> benefited with our Services till now</span>
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* Services Section */}
       <div className="bg-gray-50 py-16">
         <div className="container mx-auto px-4">
@@ -374,12 +324,6 @@ const Index = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Results Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">
-            {searchType === 'supplier' 
-              ? `${filteredSuppliers.length} Suppliers Found`
-              : `${filteredProducts.length} Products Found`
-            }
-          </h2>
           {(searchTerm || selectedCategories.length > 0) && (
             <Button 
               variant="outline" 
@@ -387,7 +331,7 @@ const Index = () => {
                 setSearchTerm('');
                 setSelectedCategories([]);
               }}
-              className="text-orange-600 border-orange-600 hover:bg-orange-50"
+              className="text-orange-600 border-orange-600 hover:bg-orange-50 ml-auto"
             >
               Clear Filters
             </Button>
