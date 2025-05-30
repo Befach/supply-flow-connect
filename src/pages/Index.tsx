@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Search, Camera, TrendingUp, DollarSign, Truck, Globe, ChevronDown, Users, ChevronRight } from 'lucide-react';
+import { Search, Camera, TrendingUp, DollarSign, Truck, Globe, ChevronDown, Users, ChevronRight, Package } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -35,25 +35,24 @@ const Index = () => {
 
   const handleSearch = () => {
     if (searchType === 'suppliers') {
-      navigate('/suppliers');
+      navigate('/suppliers', { replace: true });
     } else if (searchType === 'products') {
-      navigate('/products');
+      navigate('/products', { replace: true });
     }
   };
 
   const handleDropdownClick = (type: 'suppliers' | 'products') => {
     setSearchType(type);
     if (type === 'suppliers') {
-      navigate('/suppliers');
+      navigate('/suppliers', { replace: true });
     } else if (type === 'products') {
-      navigate('/products');
+      navigate('/products', { replace: true });
     }
   };
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
-    // Navigate to suppliers page with the selected category
-    navigate('/suppliers');
+    navigate('/suppliers', { replace: true });
   };
 
   return (
@@ -71,31 +70,41 @@ const Index = () => {
               Search for suppliers and products across the globe
             </p>
             
-            {/* Updated Search Bar with Dropdown */}
+            {/* Updated Search Bar with Icons Only */}
             <div className="relative max-w-2xl mx-auto mb-8">
-              <div className="flex items-center bg-white border-2 border-gray-200 rounded-full shadow-sm overflow-hidden">
+              <div className="flex items-center bg-white border-2 border-gray-200 rounded-full shadow-sm overflow-hidden hover:shadow-md transition-shadow">
                 {/* Search Type Dropdown */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="ghost"
-                      className="h-12 px-6 hover:bg-gray-100 rounded-none border-r border-gray-200 capitalize flex items-center gap-2"
+                      className={`h-12 px-6 rounded-none border-r border-gray-200 capitalize flex items-center gap-2 transition-colors ${
+                        searchType === 'suppliers' 
+                          ? 'bg-orange-500 text-white hover:bg-orange-600' 
+                          : 'hover:bg-gray-100'
+                      }`}
                     >
-                      {searchType}
+                      {searchType === 'suppliers' ? (
+                        <Users className="h-5 w-5" />
+                      ) : (
+                        <Package className="h-5 w-5" />
+                      )}
                       <ChevronDown className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="bg-white border border-gray-200 shadow-md">
+                  <DropdownMenuContent align="start" className="bg-white border border-gray-200 shadow-md z-50">
                     <DropdownMenuItem 
                       onClick={() => handleDropdownClick('suppliers')}
-                      className="hover:bg-gray-100 cursor-pointer"
+                      className="hover:bg-orange-50 cursor-pointer flex items-center gap-2"
                     >
+                      <Users className="h-4 w-4" />
                       Suppliers
                     </DropdownMenuItem>
                     <DropdownMenuItem 
                       onClick={() => handleDropdownClick('products')}
-                      className="hover:bg-gray-100 cursor-pointer"
+                      className="hover:bg-orange-50 cursor-pointer flex items-center gap-2"
                     >
+                      <Package className="h-4 w-4" />
                       Products
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -121,7 +130,7 @@ const Index = () => {
                 
                 <Button
                   onClick={handleSearch}
-                  className="h-12 px-6 bg-orange-500 hover:bg-orange-600 text-white rounded-r-full rounded-l-none"
+                  className="h-12 px-6 bg-orange-500 hover:bg-orange-600 text-white rounded-r-full rounded-l-none transition-colors"
                 >
                   <Search className="h-4 w-4 mr-2" />
                   Search
@@ -136,7 +145,7 @@ const Index = () => {
                   key={category}
                   variant={selectedCategory === category ? "default" : "outline"}
                   onClick={() => handleCategoryClick(category)}
-                  className={`rounded-full px-4 py-2 text-sm ${
+                  className={`rounded-full px-4 py-2 text-sm transition-colors hover:shadow-sm ${
                     selectedCategory === category
                       ? 'bg-orange-500 hover:bg-orange-600 text-white'
                       : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
@@ -147,7 +156,7 @@ const Index = () => {
               ))}
               <Button
                 variant="outline"
-                className="rounded-full px-4 py-2 text-sm bg-white border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center gap-1"
+                className="rounded-full px-4 py-2 text-sm bg-white border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center gap-1 transition-colors"
               >
                 Less
                 <ChevronRight className="h-3 w-3" />
