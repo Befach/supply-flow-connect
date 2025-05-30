@@ -14,10 +14,10 @@ export const Navigation = () => {
             <Link to="/" className="text-orange-600 hover:text-orange-700 font-medium">
               Home
             </Link>
-            <a href="#" className="text-gray-600 hover:text-gray-900">
+            <a href="https://befach.com/pages/about-us" className="text-gray-600 hover:text-gray-900">
               About
             </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900">
+            <a href="https://befach.com/policies/contact-information" className="text-gray-600 hover:text-gray-900">
               Contact
             </a>
             <a href="#" className="text-gray-600 hover:text-gray-900 bg-gray-100 px-3 py-1 rounded">
