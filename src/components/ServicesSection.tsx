@@ -54,6 +54,7 @@ export const ServicesSection: React.FC = () => {
               title={service.title}
               description={service.description}
               iconBgColor={service.iconBgColor}
+              highlighted={service.highlighted}
             />
           ))}
         </div>
