@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Search, Camera, TrendingUp, DollarSign, Truck, Globe, ChevronDown, Users } from 'lucide-react';
+import { Search, Camera, TrendingUp, DollarSign, Truck, Globe, ChevronDown, Users, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,7 +16,22 @@ import { useNavigate } from 'react-router-dom';
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchType, setSearchType] = useState<'suppliers' | 'products'>('suppliers');
+  const [selectedCategory, setSelectedCategory] = useState('All Suppliers');
   const navigate = useNavigate();
+
+  const categories = [
+    'All Suppliers',
+    'Agriculture',
+    'Electronics',
+    'Fabrics',
+    'Food',
+    'Manufacturing',
+    'Organic',
+    'Packaging',
+    'Raw Materials',
+    'Sustainable Products',
+    'Textiles'
+  ];
 
   const handleSearch = () => {
     if (searchType === 'suppliers') {
@@ -35,6 +50,12 @@ const Index = () => {
     }
   };
 
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
+    // Navigate to suppliers page with the selected category
+    navigate('/suppliers');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -51,7 +72,7 @@ const Index = () => {
             </p>
             
             {/* Updated Search Bar with Dropdown */}
-            <div className="relative max-w-2xl mx-auto mb-12">
+            <div className="relative max-w-2xl mx-auto mb-8">
               <div className="flex items-center bg-white border-2 border-gray-200 rounded-full shadow-sm overflow-hidden">
                 {/* Search Type Dropdown */}
                 <DropdownMenu>
@@ -106,6 +127,31 @@ const Index = () => {
                   Search
                 </Button>
               </div>
+            </div>
+
+            {/* Category Filter Buttons */}
+            <div className="flex flex-wrap justify-center gap-2 mb-12">
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  variant={selectedCategory === category ? "default" : "outline"}
+                  onClick={() => handleCategoryClick(category)}
+                  className={`rounded-full px-4 py-2 text-sm ${
+                    selectedCategory === category
+                      ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                      : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  {category}
+                </Button>
+              ))}
+              <Button
+                variant="outline"
+                className="rounded-full px-4 py-2 text-sm bg-white border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center gap-1"
+              >
+                Less
+                <ChevronRight className="h-3 w-3" />
+              </Button>
             </div>
           </div>
         </div>
