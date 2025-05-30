@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+
+import React, { useState, useMemo, useEffect } from 'react';
 import { Search, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,12 +8,24 @@ import { SupplierCard } from '@/components/SupplierCard';
 import { SupplierDetail } from '@/components/SupplierDetail';
 import { CategoryFilter } from '@/components/CategoryFilter';
 import { suppliers } from '@/data/suppliers';
+import { useLocation } from 'react-router-dom';
 import type { Supplier } from '@/types/supplier';
 
 const Suppliers = () => {
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
+
+  // Handle search term from navigation state
+  useEffect(() => {
+    if (location.state?.searchTerm) {
+      setSearchTerm(location.state.searchTerm);
+    }
+    if (location.state?.selectedCategory && location.state.selectedCategory !== 'All Suppliers') {
+      setSelectedCategory(location.state.selectedCategory);
+    }
+  }, [location.state]);
 
   const categories = useMemo(() => {
     const allCategories = suppliers.flatMap(supplier => supplier.categories);

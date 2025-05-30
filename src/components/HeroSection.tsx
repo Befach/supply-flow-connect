@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { SearchDropdown } from './SearchDropdown';
 import { CategoryFilterButtons } from './CategoryFilterButtons';
+import { useNavigate } from 'react-router-dom';
 
 interface HeroSectionProps {
   searchType: 'suppliers' | 'products';
@@ -22,10 +23,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onCategoryClick,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     console.log('Searching for:', searchTerm, 'in', searchType);
-    // Search functionality can be implemented here
+    
+    if (searchType === 'suppliers') {
+      navigate('/suppliers', { 
+        state: { searchTerm, selectedCategory } 
+      });
+    } else if (searchType === 'products') {
+      navigate('/products', { 
+        state: { searchTerm, selectedCategory } 
+      });
+    }
   };
 
   return (

@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+
+import React, { useState, useMemo, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Navigation } from '@/components/Navigation';
@@ -8,14 +9,26 @@ import { CategoryFilter } from '@/components/CategoryFilter';
 import { SupplierDetail } from '@/components/SupplierDetail';
 import { products } from '@/data/products';
 import { suppliers } from '@/data/suppliers';
+import { useLocation } from 'react-router-dom';
 import type { Product } from '@/types/product';
 import type { Supplier } from '@/types/supplier';
 
 const Products = () => {
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
+
+  // Handle search term from navigation state
+  useEffect(() => {
+    if (location.state?.searchTerm) {
+      setSearchTerm(location.state.searchTerm);
+    }
+    if (location.state?.selectedCategory && location.state.selectedCategory !== 'All Suppliers') {
+      setSelectedCategory(location.state.selectedCategory);
+    }
+  }, [location.state]);
 
   const categories = useMemo(() => {
     const allCategories = products.map(product => product.category);
