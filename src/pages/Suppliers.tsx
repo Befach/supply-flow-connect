@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { HeroSection } from '@/components/HeroSection';
-import { SupplierSearchSidebar } from '@/components/SupplierSearchSidebar';
 import { SuppliersListSection } from '@/components/SuppliersListSection';
 import { SupplierDetail } from '@/components/SupplierDetail';
 import { suppliers } from '@/data/suppliers';
@@ -53,14 +52,6 @@ const Suppliers = () => {
     });
   }, [searchTerm, selectedCategory]);
 
-  const handleSearchChange = (term: string) => {
-    setSearchTerm(term);
-  };
-
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-  };
-
   const handleSupplierSelect = (supplier: Supplier) => {
     setSelectedSupplier(supplier);
   };
@@ -95,26 +86,10 @@ const Suppliers = () => {
       />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="flex gap-8">
-          {/* Left Sidebar */}
-          <SupplierSearchSidebar
-            searchTerm={searchTerm}
-            onSearchChange={handleSearchChange}
-            selectedCategory={selectedCategory === 'All Suppliers' ? 'all' : selectedCategory}
-            onCategoryChange={handleCategoryChange}
-            categories={categories.slice(1)} // Remove 'All Suppliers' from sidebar categories
-            suppliers={filteredSuppliers}
-            onSupplierSelect={handleSupplierSelect}
-          />
-
-          {/* Main Content */}
-          <div className="flex-1">
-            <SuppliersListSection
-              suppliers={filteredSuppliers}
-              onSupplierClick={handleSupplierSelect}
-            />
-          </div>
-        </div>
+        <SuppliersListSection
+          suppliers={filteredSuppliers}
+          onSupplierClick={handleSupplierSelect}
+        />
       </div>
     </div>
   );
