@@ -25,7 +25,7 @@ export const SearchDropdown: React.FC<SearchDropdownProps> = ({
           <Button
             variant="ghost"
             className={`h-12 px-6 rounded-full capitalize flex items-center gap-2 transition-colors shadow-sm border-2 border-gray-200 hover:shadow-md ${
-              searchType === 'suppliers' 
+              searchType === 'products' 
                 ? 'bg-orange-500 text-white hover:bg-orange-600' 
                 : 'bg-white hover:bg-gray-100'
             }`}
