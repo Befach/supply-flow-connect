@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Search } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { Filter } from 'lucide-react';
 import { Navigation } from '@/components/Navigation';
 import { HeroSection } from '@/components/HeroSection';
 import { ProductCard } from '@/components/ProductCard';
@@ -119,48 +118,43 @@ const Products = () => {
       
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          {/* Search Section */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-            <div className="flex flex-col gap-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  type="text"
-                  placeholder="Search products..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 h-12"
-                />
+          {/* Category Filter Buttons */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {productCategories.map((category, index) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-full text-sm transition-colors ${
+                  selectedCategory === category
+                    ? 'bg-orange-500 text-white'
+                    : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+            {productCategories.length > 8 && (
+              <button className="px-4 py-2 rounded-full text-sm bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
+                More ({productCategories.length - 8})
+              </button>
+            )}
+          </div>
+
+          {/* Filter and Sort Section */}
+          <div className="bg-gray-100 rounded-lg p-4 mb-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-orange-500">
+                <Filter className="h-4 w-4" />
+                <span className="font-medium">Filter and sort</span>
               </div>
-              
-              {/* Category Filter Buttons */}
-              <div className="flex flex-wrap gap-2">
-                {productCategories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`px-4 py-2 rounded-full text-sm transition-colors ${
-                      selectedCategory === category
-                        ? 'bg-orange-500 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
+              <span className="text-gray-600 font-medium">
+                {filteredProducts.length} products
+              </span>
             </div>
           </div>
 
-          {/* Products Found Label */}
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Products found: {filteredProducts.length}
-            </h2>
-          </div>
-
-          {/* Products List */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Products Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
