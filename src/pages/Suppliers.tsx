@@ -3,6 +3,7 @@ import { Navigation } from '@/components/Navigation';
 import { HeroSection } from '@/components/HeroSection';
 import { SuppliersListSection } from '@/components/SuppliersListSection';
 import { SupplierDetail } from '@/components/SupplierDetail';
+import { FilterAndSort } from '@/components/FilterAndSort';
 import { suppliers } from '@/data/suppliers';
 import { useLocation } from 'react-router-dom';
 import type { Supplier } from '@/types/supplier';
@@ -86,10 +87,17 @@ const Suppliers = () => {
       />
       
       <div className="container mx-auto px-4 py-8">
-        <SuppliersListSection
-          suppliers={filteredSuppliers}
-          onSupplierClick={handleSupplierSelect}
+        <FilterAndSort 
+          itemCount={filteredSuppliers.length}
+          itemType="suppliers"
         />
+        
+        <div className="mt-6">
+          <SuppliersListSection
+            suppliers={filteredSuppliers}
+            onSupplierClick={handleSupplierSelect}
+          />
+        </div>
       </div>
     </div>
   );
