@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { Filter } from 'lucide-react';
 import { Navigation } from '@/components/Navigation';
@@ -156,11 +157,43 @@ const Products = () => {
           {/* Products Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredProducts.map((product) => (
-              <ProductCard
+              <div
                 key={product.id}
-                product={product}
+                className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-md transition-shadow"
                 onClick={() => handleProductClick(product)}
-              />
+              >
+                {/* Product Image Placeholder */}
+                <div className="w-full h-48 bg-gray-200 rounded-lg mb-4 flex items-center justify-center">
+                  <div className="w-16 h-16 bg-orange-400 rounded-lg transform rotate-12 flex items-center justify-center">
+                    <div className="w-8 h-8 bg-orange-500 rounded"></div>
+                  </div>
+                </div>
+
+                {/* Product Info */}
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    {product.name}
+                  </h3>
+                  
+                  <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
+                    <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
+                    <span>by {product.supplierName}</span>
+                  </div>
+                  
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                    {product.description}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">
+                      {product.category}
+                    </span>
+                    <span className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
+                      {product.price} {product.currency}
+                    </span>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
 
