@@ -85,7 +85,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               
               <Button
                 onClick={handleSearch}
-                className="h-12 w-12 rounded-full bg-orange-500 hover:bg-orange-600 text-white p-0"
+                className="h-12 w-12 rounded-full bg-gray-200 hover:bg-gray-300 active:bg-orange-500 focus:bg-orange-500 text-gray-600 hover:text-gray-700 active:text-white focus:text-white p-0 transition-colors"
               >
                 <Search className="h-5 w-5" />
               </Button>

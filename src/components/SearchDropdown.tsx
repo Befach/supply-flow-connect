@@ -24,7 +24,7 @@ export const SearchDropdown: React.FC<SearchDropdownProps> = ({
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className="h-12 px-6 rounded-full capitalize flex items-center gap-2 transition-colors shadow-sm border-2 border-gray-200 hover:shadow-md bg-orange-500 text-white hover:bg-orange-600"
+            className="h-12 px-6 rounded-full capitalize flex items-center gap-2 transition-colors shadow-sm border-2 border-gray-200 hover:shadow-md bg-white text-gray-700 hover:bg-orange-50 active:bg-orange-500 active:text-white focus:bg-orange-500 focus:text-white"
           >
             {searchType === 'suppliers' ? (
               <Users className="h-5 w-5" />
@@ -38,14 +38,14 @@ export const SearchDropdown: React.FC<SearchDropdownProps> = ({
         <DropdownMenuContent align="start" className="bg-white border border-gray-200 shadow-md z-50">
           <DropdownMenuItem 
             onClick={() => onSearchTypeChange('suppliers')}
-            className="hover:bg-orange-50 cursor-pointer flex items-center gap-2"
+            className="hover:bg-orange-50 cursor-pointer flex items-center gap-2 active:bg-orange-500 active:text-white"
           >
             <Users className="h-4 w-4" />
             Suppliers
           </DropdownMenuItem>
           <DropdownMenuItem 
             onClick={() => onSearchTypeChange('products')}
-            className="hover:bg-orange-50 cursor-pointer flex items-center gap-2"
+            className="hover:bg-orange-50 cursor-pointer flex items-center gap-2 active:bg-orange-500 active:text-white"
           >
             <Package className="h-4 w-4" />
             Products
