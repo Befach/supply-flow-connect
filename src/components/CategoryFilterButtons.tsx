@@ -1,6 +1,6 @@
 
-import React from 'react';
-import { ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronRight, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface CategoryFilterButtonsProps {
@@ -14,9 +14,18 @@ export const CategoryFilterButtons: React.FC<CategoryFilterButtonsProps> = ({
   selectedCategory,
   onCategoryClick,
 }) => {
+  const [showAll, setShowAll] = useState(false);
+  const initialCategoriesCount = 8; // Show first 8 categories initially
+  
+  const displayedCategories = showAll 
+    ? categories 
+    : categories.slice(0, initialCategoriesCount);
+
+  const hasMoreCategories = categories.length > initialCategoriesCount;
+
   return (
     <div className="flex flex-wrap justify-center gap-2 mb-12">
-      {categories.map((category) => (
+      {displayedCategories.map((category) => (
         <Button
           key={category}
           variant={selectedCategory === category ? "default" : "outline"}
@@ -30,13 +39,21 @@ export const CategoryFilterButtons: React.FC<CategoryFilterButtonsProps> = ({
           {category}
         </Button>
       ))}
-      <Button
-        variant="outline"
-        className="rounded-full px-4 py-2 text-sm bg-white border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center gap-1 transition-colors"
-      >
-        Less
-        <ChevronRight className="h-3 w-3" />
-      </Button>
+      
+      {hasMoreCategories && (
+        <Button
+          variant="outline"
+          onClick={() => setShowAll(!showAll)}
+          className="rounded-full px-4 py-2 text-sm bg-white border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center gap-1 transition-colors"
+        >
+          {showAll ? 'Less' : 'More'}
+          {showAll ? (
+            <ChevronDown className="h-3 w-3" />
+          ) : (
+            <ChevronRight className="h-3 w-3" />
+          )}
+        </Button>
+      )}
     </div>
   );
 };
