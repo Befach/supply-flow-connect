@@ -3,8 +3,9 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, MapPin, Star, Shield, Mail, Phone } from 'lucide-react';
+import { ArrowLeft, MapPin, Star, Shield, Mail, Phone, User } from 'lucide-react';
 import { Navigation } from '@/components/Navigation';
+import { suppliers } from '@/data/suppliers';
 import type { Supplier } from '@/types/supplier';
 
 interface SupplierDetailProps {
@@ -13,6 +14,18 @@ interface SupplierDetailProps {
 }
 
 export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack }) => {
+  // Get related suppliers based on shared categories
+  const getRelatedSuppliers = () => {
+    return suppliers
+      .filter(s => 
+        s.id !== supplier.id && 
+        s.categories.some(cat => supplier.categories.includes(cat))
+      )
+      .slice(0, 3);
+  };
+
+  const relatedSuppliers = getRelatedSuppliers();
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -33,7 +46,9 @@ export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack
             <CardHeader>
               <div className="flex items-start gap-6">
                 {/* Supplier Avatar/Logo */}
-                <div className="w-24 h-24 bg-gray-200 rounded-full flex-shrink-0"></div>
+                <div className="w-24 h-24 bg-gray-200 rounded-full flex-shrink-0 flex items-center justify-center">
+                  <User className="h-12 w-12 text-gray-400" />
+                </div>
                 
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-4">
@@ -111,22 +126,43 @@ export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack
           <div>
             <h3 className="text-xl font-semibold mb-4">Related suppliers</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[1, 2, 3].map((item) => (
-                <Card key={item} className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+              {relatedSuppliers.map((relatedSupplier) => (
+                <Card key={relatedSupplier.id} className="p-4 hover:shadow-md transition-shadow cursor-pointer">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 bg-gray-200 rounded-full flex-shrink-0"></div>
-                    <div>
-                      <h4 className="font-medium text-gray-900">Supplier {item}</h4>
-                      <p className="text-sm text-gray-600">Brief description</p>
+                    <div className="w-12 h-12 bg-gray-200 rounded-full flex-shrink-0 flex items-center justify-center">
+                      <User className="h-6 w-6 text-gray-400" />
                     </div>
+                    <div className="flex-1">
+                      <h4 className="font-medium text-gray-900">{relatedSupplier.name}</h4>
+                      <p className="text-xs text-gray-600">{relatedSupplier.location}</p>
+                    </div>
+                    {relatedSupplier.verified && (
+                      <Shield className="h-4 w-4 text-green-500" />
+                    )}
                   </div>
-                  <div className="space-y-2">
-                    <div className="h-2 bg-gray-200 rounded w-full"></div>
-                    <div className="h-2 bg-gray-200 rounded w-3/4"></div>
+                  <p className="text-sm text-gray-600 mb-2 line-clamp-2">{relatedSupplier.description}</p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1">
+                      <Star className="h-3 w-3 text-yellow-400 fill-current" />
+                      <span className="text-xs font-medium">{relatedSupplier.rating}</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {relatedSupplier.categories.slice(0, 2).map((category) => (
+                        <Badge key={category} variant="secondary" className="text-xs px-1">
+                          {category}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
                 </Card>
               ))}
             </div>
+            
+            {relatedSuppliers.length === 0 && (
+              <div className="text-center py-8">
+                <p className="text-gray-500">No related suppliers found</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
