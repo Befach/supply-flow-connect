@@ -11,9 +11,10 @@ import type { Supplier } from '@/types/supplier';
 interface SupplierDetailProps {
   supplier: Supplier;
   onBack: () => void;
+  onSupplierClick?: (supplier: Supplier) => void;
 }
 
-export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack }) => {
+export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack, onSupplierClick }) => {
   // Get related suppliers based on shared categories
   const getRelatedSuppliers = () => {
     return suppliers
@@ -25,6 +26,12 @@ export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack
   };
 
   const relatedSuppliers = getRelatedSuppliers();
+
+  const handleRelatedSupplierClick = (relatedSupplier: Supplier) => {
+    if (onSupplierClick) {
+      onSupplierClick(relatedSupplier);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -127,7 +134,11 @@ export const SupplierDetail: React.FC<SupplierDetailProps> = ({ supplier, onBack
             <h3 className="text-xl font-semibold mb-4">Related suppliers</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {relatedSuppliers.map((relatedSupplier) => (
-                <Card key={relatedSupplier.id} className="p-4 hover:shadow-md transition-shadow cursor-pointer">
+                <Card 
+                  key={relatedSupplier.id} 
+                  className="p-4 hover:shadow-md transition-shadow cursor-pointer"
+                  onClick={() => handleRelatedSupplierClick(relatedSupplier)}
+                >
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-12 h-12 bg-gray-200 rounded-full flex-shrink-0 flex items-center justify-center">
                       <User className="h-6 w-6 text-gray-400" />

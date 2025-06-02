@@ -107,6 +107,7 @@ const Suppliers = () => {
       <SupplierDetail 
         supplier={selectedSupplier}
         onBack={() => setSelectedSupplier(null)}
+        onSupplierClick={handleSupplierSelect}
       />
     );
   }
