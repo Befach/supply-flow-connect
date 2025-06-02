@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { Navigation } from '@/components/Navigation';
 import { HeroSection } from '@/components/HeroSection';
@@ -14,6 +15,8 @@ const Suppliers = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All Suppliers');
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
   const [searchType] = useState<'suppliers' | 'products'>('suppliers');
+  const [sortOption, setSortOption] = useState<string>('name-asc');
+  const [filterOption, setFilterOption] = useState<string>('all');
 
   const categories = [
     'All Suppliers',
@@ -39,8 +42,8 @@ const Suppliers = () => {
     }
   }, [location.state]);
 
-  const filteredSuppliers = useMemo(() => {
-    return suppliers.filter(supplier => {
+  const filteredAndSortedSuppliers = useMemo(() => {
+    let filtered = suppliers.filter(supplier => {
       const matchesSearch = supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           supplier.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           supplier.categories.some(cat => cat.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -49,9 +52,35 @@ const Suppliers = () => {
                              selectedCategory === 'all' || 
                              supplier.categories.includes(selectedCategory);
       
-      return matchesSearch && matchesCategory;
+      // Apply additional filters
+      let matchesFilter = true;
+      if (filterOption === 'verified') {
+        matchesFilter = supplier.verified;
+      } else if (filterOption === 'high-rated') {
+        matchesFilter = supplier.rating >= 4.5;
+      }
+      
+      return matchesSearch && matchesCategory && matchesFilter;
     });
-  }, [searchTerm, selectedCategory]);
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      switch (sortOption) {
+        case 'name-asc':
+          return a.name.localeCompare(b.name);
+        case 'name-desc':
+          return b.name.localeCompare(a.name);
+        case 'rating-desc':
+          return b.rating - a.rating;
+        case 'rating-asc':
+          return a.rating - b.rating;
+        default:
+          return 0;
+      }
+    });
+
+    return filtered;
+  }, [searchTerm, selectedCategory, sortOption, filterOption]);
 
   const handleSupplierSelect = (supplier: Supplier) => {
     setSelectedSupplier(supplier);
@@ -63,6 +92,14 @@ const Suppliers = () => {
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
+  };
+
+  const handleSortChange = (newSortOption: string) => {
+    setSortOption(newSortOption);
+  };
+
+  const handleFilterChange = (newFilterOption: string) => {
+    setFilterOption(newFilterOption);
   };
 
   if (selectedSupplier) {
@@ -88,13 +125,17 @@ const Suppliers = () => {
       
       <div className="container mx-auto px-4 py-8">
         <FilterAndSort 
-          itemCount={filteredSuppliers.length}
+          itemCount={filteredAndSortedSuppliers.length}
           itemType="suppliers"
+          onSortChange={handleSortChange}
+          onFilterChange={handleFilterChange}
+          currentSort={sortOption}
+          currentFilter={filterOption}
         />
         
         <div className="mt-6">
           <SuppliersListSection
-            suppliers={filteredSuppliers}
+            suppliers={filteredAndSortedSuppliers}
             onSupplierClick={handleSupplierSelect}
           />
         </div>
